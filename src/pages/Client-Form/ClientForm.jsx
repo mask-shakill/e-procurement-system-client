@@ -1,91 +1,124 @@
-import React from "react";
-
+import React, { useState } from "react";
 const ClientForm = () => {
+  const [productName, setProductName] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [criteriaList, setCriteriaList] = useState([{ option: "", score: "" }]);
+
+  const handleCriteriaChange = (index, key, value) => {
+    const updatedCriteriaList = [...criteriaList];
+    updatedCriteriaList[index][key] = value;
+    setCriteriaList(updatedCriteriaList);
+  };
+
+  const handleAddCriteria = () => {
+    setCriteriaList([...criteriaList, { option: "", score: "" }]);
+  };
+
+  const handleRemoveCriteria = (index) => {
+    const updatedCriteriaList = [...criteriaList];
+    updatedCriteriaList.splice(index, 1);
+    setCriteriaList(updatedCriteriaList);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log("Form submitted:", { productName, quantity, criteriaList });
+  };
+
   return (
-    <div className="mx-14 ">
-      <h1 className="text-center  text-green-800 font-bold rounded-xl text-3xl mt-5">
-        Tender Form
-      </h1>
-      <form className="bg-slate-300 p-10 flex flex-col gap-y-6 rounded-xl mt-2 mb-10">
-        {/* first section start div  */}
-        <div className="flex justify-start gap-x-4 border shadow-xl p-3 rounded-md">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="">Product Name</label>
+    <div className="container mx-auto mt-8">
+      <h1 className="text-center text-2xl font-bold mb-4">Tender Form</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="flex mb-4">
+          <div className="w-1/3 mr-2">
+            <label className="block text-sm font-medium text-gray-600">
+              Product Name
+            </label>
             <input
-              className="p-2 w-[400px] rounded-md"
               type="text"
-              name=""
-              id=""
+              className="mt-1 p-2 w-full border rounded-md"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="">Product Quantity</label>
+          <div className="w-1/3 mr-2">
+            <label className="block text-sm font-medium text-gray-600">
+              Quantity
+            </label>
             <input
-              className="p-2 w-[400px] rounded-md"
-              type="number"
-              name=""
-              id=""
+              type="text"
+              className="mt-1 p-2 w-full border rounded-md"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="">Number of Criteria</label>
+          <div className="w-1/3">
+            <label className="block text-sm font-medium text-gray-600">
+              Criteria
+            </label>
             <input
-              className="p-2 w-[300px] rounded-md"
-              type="number"
-              name=""
-              id=""
+              type="text"
+              className="mt-1 p-2 w-full border rounded-md"
+              placeholder="Criteria"
+              // Additional logic for Criteria field, if needed
             />
           </div>
         </div>
-        {/* first section end  */}
-        {/* section 2 */}
-        {/* parent div  */}
-        <div className="flex flex-col gap-y-2 border shadow-xl rounded-md p-3">
-          <div className="">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="">Criteria-1</label>
+        {criteriaList.map((criteria, index) => (
+          <div key={index} className="flex mb-4">
+            <div className="w-1/2 mr-2">
+              <label className="block text-sm font-medium text-gray-600">
+                Option
+              </label>
               <input
-                className="p-2 w-3/4 rounded-md"
-                type="number"
-                name=""
-                id=""
-              />
-            </div>
-          </div>
-          {/* child div  */}
-          <div className="flex gap-x-4">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="">Option</label>
-              <input
-                className="p-2 w-[300px] rounded-md"
                 type="text"
-                name=""
-                id=""
+                className="mt-1 p-2 w-full border rounded-md"
+                placeholder="Option"
+                value={criteria.option}
+                onChange={(e) =>
+                  handleCriteriaChange(index, "option", e.target.value)
+                }
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="">Score</label>
+            <div className="w-1/2 mr-2">
+              <label className="block text-sm font-medium text-gray-600">
+                Score
+              </label>
               <input
-                className="p-2 w-[300px] rounded-md"
-                type="number"
-                name=""
-                id=""
+                type="text"
+                className="mt-1 p-2 w-full border rounded-md"
+                placeholder="Score"
+                value={criteria.score}
+                onChange={(e) =>
+                  handleCriteriaChange(index, "score", e.target.value)
+                }
               />
             </div>
-          </div>
-          {/* child div end  */}
-          <div>
-            <button className="bg-blue-600 px-3 py-1 rounded-md text-white font-semibold">
-              Add Criteria{" "}
+            <button
+              type="button"
+              className="bg-red-500 text-white p-2 rounded-md"
+              onClick={() => handleRemoveCriteria(index)}
+            >
+              Remove
             </button>
           </div>
-        </div>
-
-        {/* submit form  */}
-
-        <button className="py-3 text-white rounded-lg bg-green-700 hover:bg-blue-600">
-          Submit
+        ))}
+        <button
+          type="button"
+          className="bg-green-500 text-white p-2 rounded-md"
+          onClick={handleAddCriteria}
+        >
+          Add Criteria
         </button>
+        <div className="mt-4">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded-md"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );

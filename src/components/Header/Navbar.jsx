@@ -11,8 +11,8 @@ const Navbar = () => {
 
         <ul className="flex items-center justify-center gap-x-8 text-md">
           <Link to={"/"}>Home</Link>
-          <Link to={"/client"}>Client form</Link>
-          <Link to={"/"}>Client-2</Link>
+          {/* <Link to={"/client"}>Client form</Link> */}
+          <Link to={"/tender"}>Tender form</Link>
           <Link to={"/about"}>About</Link>
           <Link to={"/"}>Contact</Link>
         </ul>
